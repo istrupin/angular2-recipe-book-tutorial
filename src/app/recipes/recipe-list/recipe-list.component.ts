@@ -8,7 +8,6 @@ import {RecipeService} from '../recipe.service';
   templateUrl: './recipe-list.component.html'
 })
 export class RecipeListComponent implements OnInit {
-  @Output() recipeSelected = new EventEmitter<Recipe>();
   recipes: Recipe[] = [];
   constructor(private recipeService: RecipeService) { }
 
@@ -17,7 +16,6 @@ export class RecipeListComponent implements OnInit {
   }
 
   onSelected(recipe: Recipe) {
-    this.recipeSelected.emit(recipe);
   }
 
 }

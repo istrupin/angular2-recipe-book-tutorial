@@ -11,6 +11,9 @@ import {RecipeItemComponent} from './recipes/recipe-list/recipe-item.component';
 import {RecipeDetailComponent} from './recipes/recipe-detail/recipe-detail.component';
 import {ShoppingListComponent} from './shopping-list/shopping-list.component';
 import {ShoppingListAddComponent} from './shopping-list/shopping-list-add.component';
+import {RecipeStartComponent} from './recipes/recipe-start.component';
+import {RecipeEditComponent} from './recipes/recipe-edit/recipe-edit.component';
+
 import {HighlightDirective} from './highlight.directive';
 import {UnlessDirective} from './unless.directive';
 import {DropdownDirective} from './dropdown.directive';
@@ -31,7 +34,9 @@ import {routing} from './app.routing';
     ShoppingListAddComponent,
     HighlightDirective,
     UnlessDirective,
-    DropdownDirective
+    DropdownDirective,
+    RecipeStartComponent,
+    RecipeEditComponent
   ],
   imports: [
     BrowserModule,
