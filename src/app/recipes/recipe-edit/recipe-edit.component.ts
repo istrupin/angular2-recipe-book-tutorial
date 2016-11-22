@@ -34,6 +34,7 @@ export class RecipeEditComponent implements OnInit, OnDestroy {
           this.recipe = null;
         }
         console.log(this.isNew);
+        this.initForm();
       }
     );
   }
@@ -42,7 +43,7 @@ export class RecipeEditComponent implements OnInit, OnDestroy {
     this.subscription.unsubscribe();
   }
 
-  private initForm(isNew: boolean) { 
+  private initForm() { 
     let recipeName = '';
     let recipeImageUrl = '';
     let recipeContent = '';
