@@ -1,11 +1,14 @@
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 import { Ingredient}  from '../shared/ingredient';
 import { Recipe } from './recipe';
-import { Headers, Http } from '@angular/http';
+import { Headers, Http, Response } from '@angular/http';
+import 'rxjs/Rx';
 
 
 @Injectable()
 export class RecipeService {
+  recipesChanged = new EventEmitter<Recipe[]>();
+
   recipes: Recipe[] = [ 
     new Recipe('Dummy','DummyDesc', 'http://rishte4u.com/themes/default/assets/images/DummyImage.jpg',[
       new Ingredient('apple', 2),
@@ -37,11 +40,18 @@ export class RecipeService {
   storeData(){
     const body = JSON.stringify(this.recipes);
     const headers = new Headers({'Content-Type' : 'application/json'});
-    return this.http.post('https://recipebook-b5dcb.firebaseio.com/recipes.json', body, {headers:headers});
+    return this.http.put('https://recipebook-b5dcb.firebaseio.com/recipes.json', body, {headers:headers});
   }
 
   fetchData(){
-
+    return this.http.get('https://recipebook-b5dcb.firebaseio.com/recipes.json')
+      .map((response: Response) => response.json())
+      .subscribe(
+        (data:Recipe[]) => {
+          this.recipes = data;
+          this.recipesChanged.emit(this.recipes);
+        }
+      );
   }
 
 }
