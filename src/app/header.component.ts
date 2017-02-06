@@ -18,6 +18,7 @@ onStore(){
 
 onFetch(){
   this.recipeService.fetchData();
+  
 }
 
 }

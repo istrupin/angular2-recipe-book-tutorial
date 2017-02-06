@@ -4,51 +4,56 @@ import { Recipe } from './recipe';
 import { Headers, Http, Response } from '@angular/http';
 import 'rxjs/Rx';
 
-
 @Injectable()
 export class RecipeService {
   recipesChanged = new EventEmitter<Recipe[]>();
-
-  recipes: Recipe[] = [ 
-    new Recipe('Dummy','DummyDesc', 'http://rishte4u.com/themes/default/assets/images/DummyImage.jpg',[
-      new Ingredient('apple', 2),
-      new Ingredient('orange',1)
+  
+  private recipes: Recipe[] = [
+    new Recipe('Schnitzel', 'Very tasty', 'http://images.derberater.de/files/imagecache/456xXXX_berater/berater/slides/WienerSchnitzel.jpg', [
+      new Ingredient('French Fries', 2),
+      new Ingredient('Pork Meat', 1)
     ]),
-    new Recipe('Dummy 2','DummyDesc 2', 'http://rishte4u.com/themes/default/assets/images/DummyImage.jpg',[])];
-  constructor(private http: Http) { }
+    new Recipe('Summer Salad', 'Okayish', 'http://ohmyveggies.com/wp-content/uploads/2013/06/the_perfect_summer_salad.jpg', [])
+  ];
+
+  constructor(private http: Http) {}
 
   getRecipes() {
     return this.recipes;
   }
 
-  getRecipe(id: number){
+  getRecipe(id: number) {
     return this.recipes[id];
   }
 
-  deleteRecipe(recipe:Recipe){
-    this.recipes.splice(this.recipes.indexOf(recipe),1);
+  deleteRecipe(recipe: Recipe) {
+    this.recipes.splice(this.recipes.indexOf(recipe), 1);
   }
 
-  addRecipe(recipe:Recipe){
+  addRecipe(recipe: Recipe) {
     this.recipes.push(recipe);
   }
 
-  editRecipe(oldRecipe:Recipe, newRecipe:Recipe){
+  editRecipe(oldRecipe: Recipe, newRecipe: Recipe) {
     this.recipes[this.recipes.indexOf(oldRecipe)] = newRecipe;
   }
 
-  storeData(){
+  storeData() {
     const body = JSON.stringify(this.recipes);
-    const headers = new Headers({'Content-Type' : 'application/json'});
-    return this.http.put('https://recipebook-b5dcb.firebaseio.com/recipes.json', body, {headers:headers});
+    const headers = new Headers({
+      'Content-Type': 'application/json'
+    });
+    return this.http.put('https://recipebook-b5dcb.firebaseio.com/recipes.json', body, {headers: headers});
   }
 
-  fetchData(){
+  fetchData() {
     return this.http.get('https://recipebook-b5dcb.firebaseio.com/recipes.json')
       .map((response: Response) => response.json())
       .subscribe(
-        (data:Recipe[]) => {
+        (data: Recipe[]) => {
           this.recipes = data;
+          console.log('retrieved the following data', data);
+          console.log('recipes set to', this.recipes);
           this.recipesChanged.emit(this.recipes);
         }
       );

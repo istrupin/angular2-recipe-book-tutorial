@@ -9,15 +9,21 @@ import {RecipeService} from '../recipe.service';
 })
 export class RecipeListComponent implements OnInit {
   recipes: Recipe[] = [];
-  constructor(private recipeService: RecipeService) { }
+
+  constructor(private recipeService: RecipeService) {}
 
   ngOnInit() {
     this.recipes = this.recipeService.getRecipes();
     this.recipeService.recipesChanged.subscribe(
-     (recipes: Recipe[]) => this.recipes = recipes
+      (recipes: Recipe[]) => {
+        this.recipes = recipes;
+        this.caughtEvent(recipes);
+      }
     );
   }
 
-
+  caughtEvent(input){
+    console.log('caught event', input);
+  }
 
 }
